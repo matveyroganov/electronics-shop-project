@@ -1,3 +1,9 @@
+import csv
+import os
+
+path = os.path.join('..', 'src', 'items.csv')
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -13,7 +19,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
         self.all.append(self)
@@ -32,3 +38,44 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * Item.pay_rate
+
+    @classmethod
+    def instantiate_from_csv(cls):
+        """
+        Классовые метод, который распаковывает csv файл и возвращает список продуктов из файла
+        """
+        with open(path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for string in reader:
+                name = string['name']
+                price = string['price']
+                quantity = string['quantity']
+                cls.all.append(cls(name, price, quantity))
+                return cls.all
+
+    @staticmethod
+    def string_to_number(string):
+        """
+        Статический метод, возвращающий число из числа-строки
+        """
+        if isinstance(float(string), float):
+            return int(float(string))
+        else:
+            raise ValueError("Строка содержит лишние символы")
+
+    @property
+    def name(self):
+        """
+        Геттер для приватного атрибута name
+        """
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        """
+        Сеттер name проверяет, что длина наименования товара не больше 10 символов
+        """
+        if len(name) <= 10:
+            self.__name = name
+        else:
+            raise Exception("Длина наименования товара превышает 10 символов")
