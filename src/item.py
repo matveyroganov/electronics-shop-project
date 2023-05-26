@@ -50,8 +50,7 @@ class Item:
                 name = string['name']
                 price = string['price']
                 quantity = string['quantity']
-                cls.all.append(cls(name, price, quantity))
-                return cls.all
+                cls(name, price, quantity)
 
     @staticmethod
     def string_to_number(string):
