@@ -25,9 +25,11 @@ class Item:
         self.all.append(self)
 
     def __repr__(self):
+        """Добавлен метод repr, печатающий экземпляр класса"""
         return f"{self.__class__.__name__}{(self.__name, self.price, self.quantity)}"
 
     def __str__(self):
+        """Добавлен метод str, печатающий название товара"""
         return f"{self.__name}"
 
     def calculate_total_price(self) -> float:
