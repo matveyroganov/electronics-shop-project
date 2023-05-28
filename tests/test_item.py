@@ -37,3 +37,11 @@ def test_string_to_number():
 def test_string_with_symbols():
     with pytest.raises(ValueError):
         Item.string_to_number("0w2")
+
+
+def test_repr(product):
+    assert repr(product) == "Item('Утюг', 5000, 25)"
+
+
+def test_str(product):
+    assert str(product) == "Утюг"
