@@ -1,5 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 from src.item import Item
+from src.phone import Phone
 import pytest
 
 
@@ -11,6 +12,11 @@ def product():
 @pytest.fixture
 def product_1():
     return Item("Холодильник", 5000, 25)
+
+
+@pytest.fixture
+def product_2():
+    return Phone("Samsung", 25000, 15, 5)
 
 
 def test_calculate_total_price(product):
@@ -45,3 +51,8 @@ def test_repr(product):
 
 def test_str(product):
     assert str(product) == "Утюг"
+
+
+def test_add(product, product_1, product_2):
+    assert product.quantity + product_2.quantity == 40
+    assert product.quantity + product_1.quantity == 50

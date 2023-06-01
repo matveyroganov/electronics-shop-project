@@ -32,6 +32,9 @@ class Item:
         """Добавлен метод str, печатающий название товара"""
         return f"{self.__name}"
 
+    def __add__(self, other):
+        return self.quantity + other.quantity
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
