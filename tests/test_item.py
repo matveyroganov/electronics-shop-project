@@ -18,6 +18,10 @@ def product_1():
 def product_2():
     return Phone("Samsung", 25000, 15, 5)
 
+@pytest.fixture
+def object_1():
+    return 10
+
 
 def test_calculate_total_price(product):
     assert product.calculate_total_price() == 125000
@@ -54,5 +58,11 @@ def test_str(product):
 
 
 def test_add(product, product_1, product_2):
-    assert product.quantity + product_2.quantity == 40
-    assert product.quantity + product_1.quantity == 50
+    assert product + product_2 == 40
+    assert product + product_1 == 50
+
+
+def test_correct_object(product, object_1):
+    with pytest.raises(AttributeError):
+        product + object_1
+

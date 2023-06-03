@@ -33,6 +33,8 @@ class Item:
         return f"{self.__name}"
 
     def __add__(self, other):
+        if not isinstance(other, Item):
+            raise AttributeError
         return self.quantity + other.quantity
 
     def calculate_total_price(self) -> float:
