@@ -1,7 +1,11 @@
 import csv
 import os
 
-path = os.path.join('..', 'src', 'items.csv')
+PATH_TO_FILE = os.path.join(os.path.abspath('..'), 'src', 'items.csv')
+
+
+class InstantiateCSVError(Exception):
+    pass
 
 
 class Item:
@@ -53,17 +57,21 @@ class Item:
         self.price = self.price * Item.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, name_file=PATH_TO_FILE):
         """
         Классовые метод, который распаковывает csv файл и возвращает список продуктов из файла
         """
-        with open(path, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for string in reader:
-                name = string['name']
-                price = string['price']
-                quantity = string['quantity']
-                cls(name, price, quantity)
+        try:
+            with open(name_file, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for string in reader:
+                    if list(string.keys()) != ['name', 'price', 'quantity']:
+                        raise InstantiateCSVError
+                    cls(string['name'], string['price'], string['quantity'])
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Отсутствует файл {name_file}")
+        except InstantiateCSVError:
+            raise InstantiateCSVError("Файл item.csv поврежден")
 
     @staticmethod
     def string_to_number(string):
